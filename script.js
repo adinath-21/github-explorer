@@ -1,15 +1,10 @@
-<<<<<<< HEAD
-// ===== GitHub Developer Explorer =====
-// Stage 4: fetch repositories, render list, add sorting
-=======
->>>>>>> 8fd40ef21e016c2d8bdf9bbcadaea1c4ba945afe
-
 const form = document.getElementById('search-form');
 const input = document.getElementById('username-input');
 const status = document.getElementById('status-message');
 const results = document.getElementById('results');
 const repoList = document.getElementById('repo-list');
 const sortSelect = document.getElementById('sort-select');
+const languageBar = document.getElementById('language-bar');
 
 let currentRepos = []; // stored so we can re-sort without re-fetching
 
@@ -32,6 +27,7 @@ async function searchUser(username) {
 
     currentRepos = repos;
     renderProfile(profile);
+    renderLanguages(repos);
     renderRepos(sortRepos(repos, sortSelect.value));
 
     status.textContent = '';
@@ -49,6 +45,34 @@ function renderProfile(profile) {
   document.getElementById('profile-bio').textContent = profile.bio || '';
   document.getElementById('stat-repos').textContent = profile.public_repos;
   document.getElementById('stat-followers').textContent = profile.followers;
+}
+
+function renderLanguages(repos) {
+  // Step 1: keep only repos that have a language set
+  const reposWithLanguage = repos.filter(repo => repo.language);
+
+  // Step 2: count how many repos use each language
+  // Example result: { JavaScript: 5, Python: 2 }
+  const counts = reposWithLanguage.reduce((acc, repo) => {
+    acc[repo.language] = (acc[repo.language] || 0) + 1;
+    return acc;
+  }, {});
+
+  const total = reposWithLanguage.length;
+
+  languageBar.innerHTML = '';
+  if (total === 0) return;
+
+  // Step 3: sort languages by how many repos use them, most used first
+  const sortedLanguages = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+
+  sortedLanguages.forEach(([language, count]) => {
+    const segment = document.createElement('div');
+    segment.className = 'language-bar__segment';
+    segment.style.width = (count / total * 100) + '%';
+    segment.title = `${language} (${count})`;
+    languageBar.appendChild(segment);
+  });
 }
 
 function sortRepos(repos, sortBy) {
