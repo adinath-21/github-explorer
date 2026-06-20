@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub Developer Explorer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="masthead">
+    <p class="eyebrow">06 / GitHub Developer Explorer</p>
+    <h1 class="masthead__title">Developer Explorer</h1>
+    <p class="masthead__dek">Search a GitHub username to see their profile, repos, and top languages.</p>
+  </header>
+
+  <main class="page">
+
+    <form id="search-form" class="search-form">
+      <input type="text" id="username-input" class="search-input" placeholder="e.g. torvalds" required>
+      <button type="submit" class="btn-search">Search</button>
+    </form>
+
+    <p id="status-message" class="status-message"></p>
+
+    <article id="results" class="results" hidden>
+
+      <section class="profile-card">
+        <img id="profile-avatar" class="profile-card__avatar" alt="">
+        <div>
+          <h2 id="profile-name" class="profile-card__name"></h2>
+          <a id="profile-login" class="profile-card__login" href="#" target="_blank" rel="noopener"></a>
+          <p id="profile-bio" class="profile-card__bio"></p>
+          <p class="profile-stats">
+            <span id="stat-repos"></span> repos ·
+            <span id="stat-followers"></span> followers
+          </p>
+        </div>
+      </section>
+
+      <section class="language-section">
+        <h3 class="section-label">Languages</h3>
+        <div id="language-bar" class="language-bar"></div>
+      </section>
+
+      <section class="repo-section">
+        <div class="repo-section__head">
+          <h3 class="section-label">Repositories</h3>
+          <select id="sort-select">
+            <option value="stars">Stars</option>
+            <option value="updated">Recently updated</option>
+            <option value="name">Name</option>
+          </select>
+        </div>
+        <ul id="repo-list" class="repo-list"></ul>
+      </section>
+
+    </article>
+
+  </main>
+
+<script src="script.js"></script>
+</body>
+</html>
