@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 // ===== GitHub Developer Explorer =====
 // Stage 4: fetch repositories, render list, add sorting
+=======
+>>>>>>> 8fd40ef21e016c2d8bdf9bbcadaea1c4ba945afe
 
 const form = document.getElementById('search-form');
 const input = document.getElementById('username-input');
