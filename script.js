@@ -1,3 +1,5 @@
+
+
 const form = document.getElementById('search-form');
 const input = document.getElementById('username-input');
 const status = document.getElementById('status-message');
@@ -29,6 +31,7 @@ async function searchUser(username) {
     renderProfile(profile);
     renderLanguages(repos);
     renderRepos(sortRepos(repos, sortSelect.value));
+    saveRecentSearch(username);
 
     status.textContent = '';
     results.hidden = false;
@@ -48,11 +51,8 @@ function renderProfile(profile) {
 }
 
 function renderLanguages(repos) {
-  // Step 1: keep only repos that have a language set
   const reposWithLanguage = repos.filter(repo => repo.language);
 
-  // Step 2: count how many repos use each language
-  // Example result: { JavaScript: 5, Python: 2 }
   const counts = reposWithLanguage.reduce((acc, repo) => {
     acc[repo.language] = (acc[repo.language] || 0) + 1;
     return acc;
@@ -63,7 +63,6 @@ function renderLanguages(repos) {
   languageBar.innerHTML = '';
   if (total === 0) return;
 
-  // Step 3: sort languages by how many repos use them, most used first
   const sortedLanguages = Object.entries(counts).sort((a, b) => b[1] - a[1]);
 
   sortedLanguages.forEach(([language, count]) => {
@@ -94,6 +93,13 @@ function renderRepos(repos) {
       <span>★ ${repo.stargazers_count}</span>
     </li>
   `).join('');
+}
+
+// ---- localStorage: remember recent searches ----
+function saveRecentSearch(username) {
+  let recent = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+  recent = [username, ...recent.filter(u => u !== username)].slice(0, 5);
+  localStorage.setItem('recentSearches', JSON.stringify(recent));
 }
 
 form.addEventListener('submit', e => {
