@@ -1,5 +1,3 @@
-// ===== GitHub Developer Explorer =====
-// Stage 3: fetch + render the user's profile
 
 const form = document.getElementById('search-form');
 const input = document.getElementById('username-input');
